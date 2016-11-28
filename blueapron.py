@@ -1,7 +1,16 @@
 import urllib
 from bs4 import BeautifulSoup
+import os
 
 URL = "http://www.ontrac.com/trackingres.asp?tracking_number=D10011045155761&x=12&y=16"
+PB_API = "POST https://api.pushbullet.com/v2/pushes"
+PB_TOKEN = open("pushbullet_access_token.txt").read().strip()
+
+COMMAND = ("""curl --header 'Access-Token:%s' \
+     --header 'Content-Type: application/json' \
+     --data-binary '{"body":"Blue Apron has been marked as delivered", \
+    "title":"Blue Apron Status Change","type":"note"}' \
+     --request %s""" % (PB_TOKEN, PB_API))
 
 def main():
   page = urllib.urlopen(URL)
@@ -14,8 +23,9 @@ def main():
               status = tr.find_all("td")[1].text.strip()
               if status != "IN TRANSIT DETAILS":
                   print "Status has changed."
+                  os.system(COMMAND)
               else:
-                  print "No status change.."
+                  print "No status change."
 
       except Exception as e:
           pass
