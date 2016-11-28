@@ -4,6 +4,12 @@ import os
 
 URL = "http://www.ontrac.com/trackingres.asp?tracking_number=D10011045155761&x=12&y=16"
 PB_API = "POST https://api.pushbullet.com/v2/pushes"
+
+####
+# This token is not available in GitHub because it's uniquely tied to my own
+# Pushbullet account. Limited API access is freely avaialble by finding
+# your account's token over here: https://www.pushbullet.com/#settings/account.
+####
 PB_TOKEN = open("pushbullet_access_token.txt").read().strip()
 
 COMMAND = ("""curl --header 'Access-Token:%s' \
