@@ -32,7 +32,7 @@ def get_status(page):
             pass
 
 def send_notification():
-      os.system(COMMAND)
+    os.system(COMMAND)
 
 def main():
     page = urllib.urlopen(URL)
