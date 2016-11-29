@@ -39,7 +39,7 @@ def main():
     status = get_status(page)
 
     message = "No status change."
-    if status != "IN TRANSIT DETAILS":
+    if status:
       message = "Status has changed."
       send_notification()
     print message
