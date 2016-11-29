@@ -31,7 +31,7 @@ def get_status(page):
         except AttributeError as e:
             pass
 
-def send_notification(message):
+def send_notification():
       os.system(COMMAND)
 
 def main():
