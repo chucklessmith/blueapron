@@ -38,10 +38,10 @@ def main():
     message = "No status change."
     if status != "IN TRANSIT DETAILS":
       message = "Status has changed."
-      send_sms()
+      send_notification()
     print message
 
-def send_sms(message):
+def send_notification(message):
       os.system(COMMAND)
 
 if __name__ == "__main__":
