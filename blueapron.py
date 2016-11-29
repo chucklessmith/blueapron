@@ -31,6 +31,9 @@ def get_status(page):
         except AttributeError as e:
             pass
 
+def send_notification(message):
+      os.system(COMMAND)
+
 def main():
     page = urllib.urlopen(URL)
     status = get_status(page)
@@ -40,9 +43,6 @@ def main():
       message = "Status has changed."
       send_notification()
     print message
-
-def send_notification(message):
-      os.system(COMMAND)
 
 if __name__ == "__main__":
   main()
