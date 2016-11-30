@@ -42,7 +42,7 @@ def main():
     if status:
       message = "Status has changed."
       send_notification()
-    print message
+    print '\n' + message
 
 if __name__ == "__main__":
   main()
