@@ -10,31 +10,39 @@ PB_API = "POST https://api.pushbullet.com/v2/pushes"
 # Pushbullet account. Limited API access is freely avaialble by finding
 # your account's token over here: https://www.pushbullet.com/#settings/account.
 ####
-PB_TOKEN = open("pushbullet_access_token.txt").read().strip()
+PB_TOKEN = open("pushbullet_access_token.txt").read().strip() # no EOL characters
 
+### This POST pushes notifications to all devices registered to the account.
+##  That may or may not be the desired effect, so proceed with caution.
 COMMAND = ("""curl --header 'Access-Token:%s' \
      --header 'Content-Type: application/json' \
      --data-binary '{"body":"Blue Apron has been marked as delivered", \
     "title":"Blue Apron Status Change","type":"note"}' \
      --request %s""" % (PB_TOKEN, PB_API))
 
-def main():
-  page = urllib.urlopen(URL)
-  soup = BeautifulSoup(page, "html.parser")
-  trs = soup.find_all("tr")
-  for tr in trs:
-    #   print tr
-      try:
-          if tr.td.b.text == "Delivery Status:":
+def get_status(page):
+    soup = BeautifulSoup(page, "html.parser")
+    trs = soup.find_all("tr")
+    for tr in trs:
+        try:
+            if tr.td.b.text == "Delivery Status:":
               status = tr.find_all("td")[1].text.strip()
-              if status != "IN TRANSIT DETAILS":
-                  print "Status has changed."
-                  os.system(COMMAND)
-              else:
-                  print "No status change."
+              return status
+        except AttributeError as e:
+            pass
 
-      except Exception as e:
-          pass
+def send_notification():
+    os.system(COMMAND)
+
+def main():
+    page = urllib.urlopen(URL)
+    status = get_status(page)
+
+    message = "No status change."
+    if status:
+      message = "Status has changed."
+      send_notification()
+    print message
 
 if __name__ == "__main__":
   main()
