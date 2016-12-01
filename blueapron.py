@@ -1,9 +1,10 @@
-import urllib
+# import urllib
+import requests
 from bs4 import BeautifulSoup
 import os
 
 URL = "http://www.ontrac.com/trackingres.asp?tracking_number=D10011045155761&x=12&y=16"
-PB_API = "POST https://api.pushbullet.com/v2/pushes"
+PB_API = "https://api.pushbullet.com/v2/pushes"
 
 ####
 # This token is not available in GitHub because it's uniquely tied to my own
@@ -32,10 +33,14 @@ def get_status(page):
             pass
 
 def send_notification():
-    os.system(COMMAND)
+    # os.system(COMMAND)
+    requests.post(PB_API,
+                    headers={"Access-Token":PB_TOKEN},
+                    json={"body":"Blue Apron has been marked as delivered",
+                          "title":"Blue Apron Status Change","type":"note"})
 
 def main():
-    page = urllib.urlopen(URL)
+    page = requests.get(URL).text
     status = get_status(page)
 
     message = "No status change."
