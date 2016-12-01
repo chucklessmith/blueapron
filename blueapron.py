@@ -13,13 +13,16 @@ PB_API = "https://api.pushbullet.com/v2/pushes"
 ####
 PB_TOKEN = open("pushbullet_access_token.txt").read().strip() # no EOL characters
 
+# I've replaced this block with a chunk in send_notification() below.
+# Same caveats about the broadcasting nature of it apply, thuough!
+
 ### This POST pushes notifications to all devices registered to the account.
 ##  That may or may not be the desired effect, so proceed with caution.
-COMMAND = ("""curl --header 'Access-Token:%s' \
-     --header 'Content-Type: application/json' \
-     --data-binary '{"body":"Blue Apron has been marked as delivered", \
-    "title":"Blue Apron Status Change","type":"note"}' \
-     --request %s""" % (PB_TOKEN, PB_API))
+# COMMAND = ("""curl --header 'Access-Token:%s' \
+#      --header 'Content-Type: application/json' \
+#      --data-binary '{"body":"Blue Apron has been marked as delivered", \
+#     "title":"Blue Apron Status Change","type":"note"}' \
+#      --request %s""" % (PB_TOKEN, PB_API))
 
 def get_status(page):
     soup = BeautifulSoup(page, "html.parser")
